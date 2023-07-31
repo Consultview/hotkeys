@@ -1,0 +1,23 @@
+; Definir uma tecla de atalho (F12) para ativar/desativar o modo avião
+F12::
+ToggleAirplaneMode()
+return
+
+; Função para ativar/desativar o modo avião
+ToggleAirplaneMode()
+{
+    ; Substitua "Nome da sua conexão Wi-Fi" e "Nome da sua conexão Ethernet" pelos nomes reais das suas conexões de rede
+    Run, %comspec% /c netsh interface show interface | findstr /C:"Nome da sua conexão Wi-Fi" /C:"Nome da sua conexão Ethernet" > nul
+    if ErrorLevel
+    {
+        ; As conexões estão desabilitadas, então habilita o modo avião desabilitando as conexões
+        Run, %comspec% /c netsh interface set interface "Nome da sua conexão Wi-Fi" admin=disable
+        Run, %comspec% /c netsh interface set interface "Nome da sua conexão Ethernet" admin=disable
+    }
+    else
+    {
+        ; As conexões estão habilitadas, então desabilita o modo avião habilitando as conexões
+        Run, %comspec% /c netsh interface set interface "Nome da sua conexão Wi-Fi" admin=enable
+        Run, %comspec% /c netsh interface set interface "Nome da sua conexão Ethernet" admin=enable
+    }
+}
